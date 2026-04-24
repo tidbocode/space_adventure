@@ -28,22 +28,30 @@ def main():
     turns_to_win = 5
     turns_survived = 0
     alive = True
+    last_event = None
 
     while alive:
         print(f"\nTurn {turns_survived + 1} of {turns_to_win}")
-        event = random.choice(["asteroid", "alien", "safe", "blackhole", "wormhole"])
+        if turns_survived < 3:
+            possible_events = ["asteroid", "alien", "safe", "safe", "wormhole"]
+        else:
+            possible_events = ["asteroid", "alien", "safe", "safe", "blackhole", "wormhole"]
+        if last_event == "safe" or last_event == "wormhole":
+            possible_events = [e for e in possible_events if e not in ["safe", "wormhole"]]
+        event = random.choice(possible_events)
+        last_event = event
         skip_increment = False
         if event == "asteroid":
             print("Warning! An asteroid field is ahead.")
             action = input("Do you 'dodge' or 'brace'? ").strip().lower()
             if action == "dodge":
-                if random.random() < 0.7:
+                if random.random() < 0.8:
                     print("You skillfully dodge the asteroids!")
                 else:
                     print("You fail to dodge and your ship is destroyed!")
                     alive = False
             elif action == "brace":
-                if random.random() < 0.3:
+                if random.random() < 0.4:
                     print("You survive the impact, but your ship is damaged.")
                 else:
                     print("The asteroid impact destroys your ship!")
@@ -55,13 +63,13 @@ def main():
             print("Alert! An alien ship is attacking!")
             action = input("Do you 'fight' or 'run'? ").strip().lower()
             if action == "fight":
-                if random.random() < 0.5:
+                if random.random() < 0.6:
                     print("You defeat the alien ship!")
                 else:
                     print("The aliens overpower you. You are lost in space.")
                     alive = False
             elif action == "run":
-                if random.random() < 0.6:
+                if random.random() < 0.7:
                     print("You escape the aliens!")
                 else:
                     print("You fail to escape and are destroyed.")
@@ -75,19 +83,61 @@ def main():
             alive = False
         elif event == "wormhole":
             print("A mysterious wormhole opens before you!")
-            if random.random() < 0.5:
+            if random.random() < 0.7:
                 turns_survived += 1
                 print("You emerge from the wormhole closer to your destination!")
             else:
-                turns_survived = max(0, turns_survived - 1)
-                print("You emerge from the wormhole further away from your goal.")
+                turns_survived += 2
+                print("You emerge much closer to your destination!")
             skip_increment = True
         else:
             print("This part of space is calm. You travel safely.")
 
-        if alive and not skip_increment:
-            turns_survived += 1
+        if not alive:
+            print(r"""
+_ ._  _ , _ ._
+        (_ ' ( `  )_  .__)
+      ( (  (    )   `)  ) _)
+     (__ (_   (_ . _) _) ,__)
+         `~~`\ ' . /`~~`
+              |   |
+   -- ---  _(_   _)_  --- --
+      _  __/_  (( _ )\_  _
+     --      (  `  )     --
+            __)  (__
+            """)
+            print("Game Over. Thanks for playing!")
+            break
+        else:
+            if not skip_increment:
+                turns_survived += 1
             if turns_survived >= turns_to_win:
+                print(r"""
+      / \
+     /   \
+    /     \
+   /_______\
+  |   ( )   |
+  |  -----  |
+  | |     | |
+  | |     | |
+  | |_____| |
+ /  \_____/  \
+|___ __|__ ___|
+   |   |   |
+   |   |   |
+  / \ / \ / \
+   v   v   v
+       
+      .....
+   .:::::::::.
+  :::::::::::::
+  :::::::::::::    Bowen is a nerd :)
+   ':::::::::'
+      '''''
+                """)
+                print("\nCongratulations! You have reached an Earth-like planet and won the game!")
+                break
                 print(r"""
       / \
      /   \
@@ -108,23 +158,10 @@ def main():
       .....
    .:::::::::.
   :::::::::::::
-  :::::::::::::
+  :::::::::::::    Daddy is the coolest :)
    ':::::::::'
       '''''
                 """)
                 print("\nCongratulations! You have reached an Earth-like planet and won the game!")
                 break
-        else:
-            print(r"""
-          _ ._  _ , _ ._
-        (_ ' ( `  )_  ._)
-      ( (  (    )   `)  ) _)
-     (__ (_   (_ . _) _) ,__)
-         `~~`\ ' . /`~~`
-              |   |
-    -- ---  _(_   _)_  --- --
-      _  __/_(( _ )\_  _
-      -      (  `  )     --
-            __)  (__
-            """)
-            print("Game Over. Thanks for playing!")
+
