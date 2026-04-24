@@ -1,2 +1,2 @@
 # space_adventure
-![Alternative Text](space_adventure.jpg)
+![image](https://github.com/tidbocode/space_adventure/blob/main/space_adventure/space_adventure.jpg)
