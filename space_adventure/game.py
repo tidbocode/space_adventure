@@ -5,8 +5,26 @@ from .player import Player
 import random
 
 def main():
-    print("Welcome to Space Adventure!")
-    print("Your mission: Survive the journey to an Earth-like planet.")
+        print(r"""
+           .      /^\      .         .         /^\
+    .             |V|   .         .            |V|      .
+          --[O]---' '---      _______      ---' '---[O]--
+       * /  EXPLORER    \    | ALIEN |    /    THREAT    \   *
+        |________________|   |_______|   |________________|
+     .      ||   ||           /V\           ||   ||      .
+    ________||___||__________// \\__________||___||________
+   (                                                       )
+    )   .     O      .     [ ASTEROIDS ]     .      O     (
+   (      .      .           #### ####           .      .  )
+    )_____________________________________________________(')
+             _..._             _..._             _..._
+           .'     '.         .'     '.         .'     '.
+         * | (o)(o) |   .    | (o)(o) |        | (o)(o) |     .
+            \  __  /          \  __  /          \  __  /
+             '____'            '____'            '____'
+        """)
+        print("Welcome to Space Adventure!")
+        print("Your mission: Survive the journey to an Earth-like planet.")
     turns_to_win = 5
     turns_survived = 0
     alive = True
