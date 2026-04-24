@@ -6,22 +6,22 @@ import random
 
 def main():
     print(r"""
-         .      /^\      .         .         /^\
-    .           |V|   .         .            |V|      .
-            --[O]---' '---      _______      ---' '---[O]--
-       * /  EXPLORER    \    | ALIEN |    /    THREAT    \   *
-        |________________|   |_______|   |________________|
+       .        /^\      .         .        /^\
+    .           |V|   .         .           |V|      .
+        --[O]---' '---      _______      ---' '---[O]--
+       /  EXPLORER    \    | ALIEN |    /    THREAT    \   *
+      |________________|   |_______|   |________________|
      .      ||   ||           /V\           ||   ||      .
     ________||___||__________// \\__________||___||________
    (                                                       )
     )   .     O      .     [ ASTEROIDS ]     .      O     (
    (      .      .           #### ####           .      .  )
-    )_____________________________________________________(')
-                     _..._             _..._             _..._
-                   .'     '.         .'     '.         .'     '.
-                 * | (o)(o) |   .    | (o)(o) |        | (o)(o) |     .
-                    \  __  /          \  __  /          \  __  /
-                     '____'            '____'            '____'
+    )_____________________________________________________(
+           _..._             _..._             _..._
+         .'     '.         .'     '.         .'     '.
+       * | (o)(o) |   .    | (o)(o) |        | (o)(o) |     .
+          \  __  /          \  __  /          \  __  /
+           '____'            '____'            '____'
         """)
     print("Welcome to Space Adventure!")
     print("Your mission: Survive the journey to an Earth-like planet.")
@@ -31,7 +31,8 @@ def main():
 
     while alive:
         print(f"\nTurn {turns_survived + 1} of {turns_to_win}")
-        event = random.choice(["asteroid", "alien", "safe"])
+        event = random.choice(["asteroid", "alien", "safe", "blackhole", "wormhole"])
+        skip_increment = False
         if event == "asteroid":
             print("Warning! An asteroid field is ahead.")
             action = input("Do you 'dodge' or 'brace'? ").strip().lower()
@@ -68,13 +69,62 @@ def main():
             else:
                 print("You freeze and the aliens destroy your ship!")
                 alive = False
+        elif event == "blackhole":
+            print("Warning! A massive black hole appears and pulls your ship in!")
+            print("You are crushed by the immense gravity. Game over.")
+            alive = False
+        elif event == "wormhole":
+            print("A mysterious wormhole opens before you!")
+            if random.random() < 0.5:
+                turns_survived += 1
+                print("You emerge from the wormhole closer to your destination!")
+            else:
+                turns_survived = max(0, turns_survived - 1)
+                print("You emerge from the wormhole further away from your goal.")
+            skip_increment = True
         else:
             print("This part of space is calm. You travel safely.")
 
-        if alive:
+        if alive and not skip_increment:
             turns_survived += 1
             if turns_survived >= turns_to_win:
+                print(r"""
+      / \
+     /   \
+    /     \
+   /_______\
+  |   ( )   |
+  |  -----  |
+  | |     | |
+  | |     | |
+  | |_____| |
+ /  \_____/  \
+|______|______|
+   |   |   |
+   |   |   |
+  / \ / \ / \
+   v   v   v
+       
+      .....
+   .:::::::::.
+  :::::::::::::
+  :::::::::::::
+   ':::::::::'
+      '''''
+                """)
                 print("\nCongratulations! You have reached an Earth-like planet and won the game!")
                 break
         else:
+            print(r"""
+          _ ._  _ , _ ._
+        (_ ' ( `  )_  ._)
+      ( (  (    )   `)  ) _)
+     (__ (_   (_ . _) _) ,__)
+         `~~`\ ' . /`~~`
+              |   |
+    -- ---  _(_   _)_  --- --
+      _  __/_(( _ )\_  _
+      -      (  `  )     --
+            __)  (__
+            """)
             print("Game Over. Thanks for playing!")
