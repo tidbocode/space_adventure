@@ -2,27 +2,61 @@ from .rooms import Room, setup_rooms
 from .items import Item
 from .player import Player
 
+import random
+
 def main():
     print("Welcome to Space Adventure!")
-    rooms = setup_rooms()
-    player = Player(rooms['Bridge'])
-    
-    while True:
-        print(f"\n{player.current_room}")
-        command = input("What do you do? ").strip().lower()
-        if command in ("quit", "exit"): 
-            print("Thanks for playing!")
-            break
-        elif command.startswith("go "):
-            direction = command[3:]
-            player.move(direction)
-        elif command.startswith("take "):
-            item_name = command[5:]
-            player.take(item_name)
-        elif command.startswith("use "):
-            item_name = command[4:]
-            player.use(item_name)
-        elif command == "inventory":
-            player.show_inventory()
+    print("Your mission: Survive the journey to an Earth-like planet.")
+    turns_to_win = 5
+    turns_survived = 0
+    alive = True
+
+    while alive:
+        print(f"\nTurn {turns_survived + 1} of {turns_to_win}")
+        event = random.choice(["asteroid", "alien", "safe"])
+        if event == "asteroid":
+            print("Warning! An asteroid field is ahead.")
+            action = input("Do you 'dodge' or 'brace'? ").strip().lower()
+            if action == "dodge":
+                if random.random() < 0.7:
+                    print("You skillfully dodge the asteroids!")
+                else:
+                    print("You fail to dodge and your ship is destroyed!")
+                    alive = False
+            elif action == "brace":
+                if random.random() < 0.3:
+                    print("You survive the impact, but your ship is damaged.")
+                else:
+                    print("The asteroid impact destroys your ship!")
+                    alive = False
+            else:
+                print("You hesitate and are hit by an asteroid!")
+                alive = False
+        elif event == "alien":
+            print("Alert! An alien ship is attacking!")
+            action = input("Do you 'fight' or 'run'? ").strip().lower()
+            if action == "fight":
+                if random.random() < 0.5:
+                    print("You defeat the alien ship!")
+                else:
+                    print("The aliens overpower you. You are lost in space.")
+                    alive = False
+            elif action == "run":
+                if random.random() < 0.6:
+                    print("You escape the aliens!")
+                else:
+                    print("You fail to escape and are destroyed.")
+                    alive = False
+            else:
+                print("You freeze and the aliens destroy your ship!")
+                alive = False
         else:
-            print("I don't understand that command.")
+            print("This part of space is calm. You travel safely.")
+
+        if alive:
+            turns_survived += 1
+            if turns_survived >= turns_to_win:
+                print("\nCongratulations! You have reached an Earth-like planet and won the game!")
+                break
+        else:
+            print("Game Over. Thanks for playing!")
